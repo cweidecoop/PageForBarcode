@@ -1,0 +1,32 @@
+﻿@model WebApplication1.ViewModels.CheckInViewModel
+
+<form asp-controller="Home" asp-action="CheckIn" asp-method="post">
+    <div>
+        <label asp-for="Barcode"></label>
+        <input asp-for="Barcode" />
+        <input type="submit" />
+    </div>
+</form>
+
+<h2>@ViewBag.Error</h2>
+
+@if (Model.NewUser != null)
+{
+    <table>
+
+        <h2>@Model.NewUser.Name  checked in.</h2>
+
+        @foreach (var user in Model.UserCheckInTimes)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.CheckInTime</td>
+            </tr>
+        }
+
+    </table>
+}
+
+
+
+
