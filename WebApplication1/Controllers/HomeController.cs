@@ -22,12 +22,11 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            //UploadDataBaseLogic uploadDataBaseLogic = new UploadDataBaseLogic(_context);
-            //uploadDataBaseLogic.UpdateDataBase();
 
             return View();
         }
 
+        //MainFunctionToCheckIn
         public IActionResult CheckIn()
         {
             CheckInViewModel checkInViewModel = new CheckInViewModel();
@@ -78,8 +77,14 @@ namespace WebApplication1.Controllers
         public IActionResult Reset()
         {
             var uploadDataBaseLogic = new UploadDataBaseLogic(_context);
-            uploadDataBaseLogic.UpdateDataBase();
             uploadDataBaseLogic.Reset();
+            return Redirect("/Home");
+        }
+
+        public IActionResult UploadCSV()
+        {
+            var uploadDataBaseLogic = new UploadDataBaseLogic(_context);
+            uploadDataBaseLogic.UpdateDataBase();
             return Redirect("/Home");
         }
     }
