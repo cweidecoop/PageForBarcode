@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
         public IActionResult CheckIn(int barcode)
         {
             var date = DateTime.Now;
-            var dateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0);
+            var dateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0).AddHours(-5);
 
 
             var uploadDataBaseLogic = new UploadDataBaseLogic(_context);
