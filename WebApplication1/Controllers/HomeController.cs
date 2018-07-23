@@ -29,9 +29,9 @@ namespace WebApplication1.Controllers
         //MainFunctionToCheckIn
         public IActionResult CheckIn()
         {
-            CheckInViewModel checkInViewModel = new CheckInViewModel();
-
-            return View(checkInViewModel);
+            IEnumerable<BarcodeUser> userNames = _context.BarcodeUsers.OrderBy(c => c.Name).ToList();
+          
+            return View(new CheckInViewModel(userNames));
         }
 
         [HttpPost]
@@ -40,11 +40,11 @@ namespace WebApplication1.Controllers
             var date = DateTime.Now;
             var dateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0).AddHours(-5);
 
-
             var uploadDataBaseLogic = new UploadDataBaseLogic(_context);
             List<BarcodeUser> users = _context.BarcodeUsers.Where(i => i.CheckedIn == true).ToList();
-            var newUser = _context.BarcodeUsers.Where(i => i.Barcode == barcode).FirstOrDefault();
+            BarcodeUser newUser = _context.BarcodeUsers.Where(i => i.Barcode == barcode).FirstOrDefault();
             List<CheckInTimes> times = _context.CheckInTimes.OrderByDescending(i => i.Barcode).ToList();
+            IEnumerable<BarcodeUser> userNames = _context.BarcodeUsers.OrderBy(c => c.Name).ToList();
 
             ViewBag.Error = "";
 
@@ -53,16 +53,17 @@ namespace WebApplication1.Controllers
             if (newUser == null)
             {
                 ViewBag.Error = "Barcode not found";
-                CheckInViewModel checkInViewModel = new CheckInViewModel();
-                return View(checkInViewModel);
+               
+                return View(new CheckInViewModel(userNames));
             }
             if (newUser != null)
             {
-               CheckInViewModel checkInViewModel = new CheckInViewModel
+                CheckInViewModel checkInViewModel = new CheckInViewModel(userNames)
                 {
                     Users = users,
                     NewUser = newUser,
-                    UserCheckInTimes = times
+                    UserCheckInTimes = times,
+
                 };
                 uploadDataBaseLogic.CheckIn(barcode, dateTime);
                 return View(checkInViewModel);

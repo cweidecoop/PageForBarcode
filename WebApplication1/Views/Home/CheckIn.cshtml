@@ -6,6 +6,11 @@
         <input asp-for="Barcode" />
         <input type="submit" />
     </div>
+
+    <div>
+
+        <select asp-for="UserNames" asp-items="Model.UserNames"></select>
+    </div>
 </form>
 
 <h2>@ViewBag.Error</h2>
